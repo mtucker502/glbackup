@@ -5,13 +5,13 @@ mirror-clone GitLab repositories to local disk. uses `glab` CLI for API access (
 ## install
 
 ```
-uv tool install git+https://github.com/mtucker502/glbackup.git
+uv tool install glbackup
 ```
 
 or run directly without installing:
 
 ```
-uvx --from git+https://github.com/mtucker502/glbackup.git glbackup
+uvx glbackup
 ```
 
 requires [glab](https://gitlab.com/gitlab-org/cli) authenticated (`glab auth login`).
