@@ -211,6 +211,22 @@ def member(ctx, **kwargs):
     _run_backup(config, projects, client.get_host())
 
 
+@cli.command()
+@backup_options
+@click.pass_context
+def owned(ctx, **kwargs):
+    """Back up repos you own."""
+    config: Config = ctx.obj["config"]
+    _apply_backup_options(config, **kwargs)
+
+    client = _get_client(config)
+    discovery = RepoDiscovery(client, config)
+    projects = discovery.discover_owned()
+
+    console.print(f"Found [bold]{len(projects)}[/] owned project(s)")
+    _run_backup(config, projects, client.get_host())
+
+
 @cli.command(name="all")
 @backup_options
 @click.pass_context
@@ -284,8 +300,9 @@ def verify(ctx):
 @click.option("--group", "group_path", default=None, help="List repos in a group")
 @click.option("--starred", "use_starred", is_flag=True, help="List starred repos")
 @click.option("--member", "use_member", is_flag=True, help="List member repos")
+@click.option("--owned", "use_owned", is_flag=True, help="List repos you own")
 @click.pass_context
-def list_repos(ctx, group_path, use_starred, use_member):
+def list_repos(ctx, group_path, use_starred, use_member, use_owned):
     """List discovered repos without backing up."""
     config: Config = ctx.obj["config"]
     client = _get_client(config)
@@ -304,6 +321,9 @@ def list_repos(ctx, group_path, use_starred, use_member):
     elif use_member:
         projects = discovery.discover_member()
         show_project_list(projects, title="Member Projects")
+    elif use_owned:
+        projects = discovery.discover_owned()
+        show_project_list(projects, title="Owned Projects")
     else:
         projects = discovery.discover_all()
         show_project_list(projects, title="All Accessible Projects")

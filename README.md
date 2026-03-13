@@ -28,8 +28,14 @@ glbackup starred
 # repos you're a member of
 glbackup member
 
+# repos you own
+glbackup owned
+
 # everything you can see
 glbackup all
+
+# only repos under your personal namespace
+glbackup owned --include "username/*"
 
 # preview what would be backed up
 glbackup group my-org/my-group --dry-run

@@ -35,6 +35,10 @@ class RepoDiscovery:
         projects = self.client.list_member_projects()
         return self._filter(projects)
 
+    def discover_owned(self) -> list[GitLabProject]:
+        projects = self.client.list_owned_projects()
+        return self._filter(projects)
+
     def discover_all(self) -> list[GitLabProject]:
         projects = self.client.list_all_projects()
         return self._filter(projects)

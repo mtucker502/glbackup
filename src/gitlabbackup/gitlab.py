@@ -99,6 +99,10 @@ class GlabClient:
         data = self._get_json("/projects?membership=true&per_page=100")
         return [GitLabProject.from_api(p) for p in data]
 
+    def list_owned_projects(self) -> list[GitLabProject]:
+        data = self._get_json("/projects?owned=true&per_page=100")
+        return [GitLabProject.from_api(p) for p in data]
+
     def list_all_projects(self) -> list[GitLabProject]:
         data = self._get_json("/projects?per_page=100")
         return [GitLabProject.from_api(p) for p in data]
