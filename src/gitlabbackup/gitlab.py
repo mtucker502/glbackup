@@ -49,9 +49,12 @@ class GlabClient:
     def check_auth(self) -> bool:
         """Verify glab is installed and authenticated."""
         try:
+            cmd = ["glab", "auth", "status"]
+            host = self.get_host()
+            if host:
+                cmd.extend(["--hostname", host])
             result = subprocess.run(
-                ["glab", "auth", "status"],
-                capture_output=True, text=True, timeout=30,
+                cmd, capture_output=True, text=True, timeout=30,
             )
             return result.returncode == 0
         except FileNotFoundError:

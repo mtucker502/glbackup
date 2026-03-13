@@ -65,6 +65,20 @@ glbackup list --group my-org/my-group
       project-name.wiki.git/     # wiki (optional)
 ```
 
+## working with backups
+
+backups are bare repos (`git clone --mirror`) — no working tree, all branches/tags/refs preserved. to browse or build code from a backup:
+
+```bash
+# add a worktree (keeps the bare repo intact)
+git worktree add ../my-working-copy main
+
+# or convert to a regular repo
+cd project-name.git
+git config --bool core.bare false
+git checkout main
+```
+
 ## other commands
 
 ```bash
